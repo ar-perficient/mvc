@@ -6,6 +6,7 @@ class App
     private static $_modelDir;
     private static $_controllerDir;
     private static $_viewDir;
+    private static $_configDir;
 
 
     public static function run()
@@ -16,6 +17,7 @@ class App
                 . DS . 'Controllers'. DS;
         self::$_viewDir = ROOT . DS . 'app' 
                 . DS . 'Views'. DS;
+        self::$_configDir = ROOT . DS . 'Config' . DS;
     }
 
     public static function getModel($class)
@@ -26,6 +28,12 @@ class App
         if (file_exists(self::$_modelDir . $className)) {
             return new $class;
         } 
+    }
+    
+    public static function getView($templateFile, $controller)
+    {
+        $template = self::$_configDir . 'Template.php';
+        return ;
     }
     
     public static function getDirectoryPath($name)

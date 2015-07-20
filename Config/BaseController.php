@@ -7,9 +7,9 @@ class BaseController
         
     }
     
-    protected function loadView($name)
+    protected function loadView($controller, $action, $data = '')
     {
-        echo 'hi there';
+        return App::getView($controller, $action, $data);
     }
     
     protected function loadModel($name)
