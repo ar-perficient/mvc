@@ -4,6 +4,8 @@ class IndexController extends BaseController
 {
     public function indexAction()
     {
-        $this->loadView('index');
+        $view = $this->loadView('index', 'index');
+        $view->setTitle('test');
+        $view->render();
     }
 }

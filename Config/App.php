@@ -30,10 +30,12 @@ class App
         } 
     }
     
-    public static function getView($templateFile, $controller)
+    public static function getView($controller, $action, $data = '')
     {
         $template = self::$_configDir . 'Template.php';
-        return ;
+        if (file_exists($template)) {
+            return new Template($controller, $action, $data);
+        }
     }
     
     public static function getDirectoryPath($name)
