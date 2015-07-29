@@ -3,7 +3,14 @@ RewriteEngine On
   
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+
+#RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
+
+RewriteCond %{REQUEST_URI} !^/(favicon\.ico|apple-touch-icon.*\.png)$ [NC]
+RewriteRule (.+) index.php?url=$1 [QSA,L]
  
-RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
- 
+RewriteRule ^(app/|Config/) - [F,L,NC]
+#RewriteRule ^.*$ /404 [L]
+ErrorDocument 403 /MVC/errors/404.html
+ErrorDocument 404 /MVC/errors/404.html
 </IfModule>
