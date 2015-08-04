@@ -1,3 +1,5 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+
 .main {
     background: #fff none repeat scroll 0 0;
     margin: 7em auto 0;
@@ -46,23 +48,24 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 }
 
 .left-form li {
-    border: 1px solid #ebebeb;
     border-radius: 0.3em;
     color: #4d4949;
     display: block;
     margin-bottom: 10px;
+    width: 100%;
 }
 
 
 .left-form input[type="text"], .left-form input[type="email"], .left-form input[type="password"] {
-    border: medium none;
     color: #000;
     float: left;
     font-family: "Open Sans",sans-serif;
     font-size: 15px;
     outline: medium none;
     padding: 0.7em 2em 0.7em 1em;
-    width: 80%;
+    width: 100%;
+    border: 1px solid #ebebeb;
+    border-radius: 0.3em;
 }
 
 .ticker {
@@ -118,13 +121,14 @@ a {
 
 
 .right-form input[type="text"], input[type="password"] {
-    border: medium none;
     color: #000;
     font-family: "Open Sans",sans-serif;
     font-size: 15px;
     outline: medium none;
     padding: 0.7em 1em;
-    width: 90%;
+    width: 100%;
+    border: 1px solid #ebebeb;
+    border-radius: 0.3em;
 }
 
 
@@ -156,4 +160,29 @@ a {
     outline: medium none;
     padding: 8px 19px;
     transition: all 0.5s ease-out 0s;
+}
+
+.isa_info, .isa_success, .isa_warning, .isa_error {
+    padding:12px;
+}
+.isa_info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.isa_success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.isa_warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.isa_error {
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+.isa_info i, .isa_success i, .isa_warning i, .isa_error i {
+    margin:10px 22px;
+    font-size:2em;
+    vertical-align:middle;
 }

@@ -2,6 +2,7 @@
 <html>
 <head>
 <title><?php echo $this->getTitle();?></title>
+<link rel="icon" type="image/ico" href="<?php echo $this->getBaseUrl(); ?>favicon.ico"/>
 <link rel='stylesheet'  href='<?php echo $this->getCssPath();?>style.css' type='text/css' media='all' />
 </head>
 <body>
