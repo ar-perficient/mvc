@@ -3,9 +3,16 @@
 class Config_Framework_Template extends Config_Framework_App
 {
     private $_controller;
+    
     private $_action;
     
+    private $_output = '';
+
     private $_templateData = array();
+    
+    private $_values = array();
+    
+    const EXT = '.ash';
 
     public function __construct($controller, $action, $templateData = '') 
     {
@@ -19,26 +26,10 @@ class Config_Framework_Template extends Config_Framework_App
     
     public function render()
     {
-        if (file_exists($this->getDirectoryPath('Views') . 'layout' . DS . 'header.php')) {
-                include ($this->getDirectoryPath('Views') . 'layout' . DS . 'header.php');
-        } else {
-            include ($this->getDirectoryPath('Views') . 'header.php');
-        }
-
-        if (file_exists($this->getDirectoryPath('Views') . $this->_controller . DS . $this->_action . '.php')) {
-            include ($this->getDirectoryPath('Views') . $this->_controller . DS . $this->_action . '.php');
-        } else {
-            $this->set('ErrorMessage', 'Template file not found');
-            include ($this->getDirectoryPath('Views') . 'error' . DS . '404' . '.php');
-        }
-        
-        
-
-        if (file_exists($this->getDirectoryPath('Views') . 'layout' . DS . 'footer.php')) {
-            include ($this->getDirectoryPath('Views') . 'layout' . DS . 'footer.php');
-        } else {
-            include ($this->getDirectoryPath('Views') . 'footer.php');
-        }
+        $this->renderHeader();
+        $this->renderContent();
+        $this->renderFooter();
+        $this->_output();        
     }
     
     public function __call($name, $arguments) 
@@ -47,7 +38,6 @@ class Config_Framework_Template extends Config_Framework_App
             case 'get' :
                 $data = $this->get(substr($name, 3));
                 return $data;
-                break;
             case 'set' :
                 $this->set(substr($name, 3), $arguments[0]);
                 break;
@@ -56,11 +46,83 @@ class Config_Framework_Template extends Config_Framework_App
     
     public function set($key, $value) 
     {
-        Config_Framework_App::register($key, $value);
+        $this->_values[$key] = $value;
+        //Config_Framework_App::register($key, $value);
     }
  
    public function get($key)
    {
-       return Config_Framework_App::registry($key);
+       //return Config_Framework_App::registry($key);
+   }
+   
+   protected function renderHeader()
+   {
+       if (file_exists($this->getDirectoryPath('Views') . 'layout' . DS . 'header'. self::EXT)) {
+            $this->setHeaderParam();
+            $this->_output .= $this->_parseTemplate(
+                file_get_contents(
+                    $this->getDirectoryPath('Views') 
+                    . 'layout' . DS 
+                    . 'header'.self::EXT
+                )
+            );
+       }
+       
+       return $this->_output;
+   }
+   
+   protected function renderFooter()
+   {
+       if (file_exists($this->getDirectoryPath('Views') . 'layout' . DS . 'footer'. self::EXT)) {
+            $this->setHeaderParam();
+            $this->_output .= $this->_parseTemplate(
+                file_get_contents(
+                    $this->getDirectoryPath('Views') 
+                    . 'layout' . DS 
+                    . 'footer'.self::EXT
+                )
+            );
+       }
+       
+       return $this->_output;
+   }
+   
+   protected function renderContent()
+   {
+       if (file_exists($this->getDirectoryPath('Views') . $this->_controller . DS . $this->_action . self::EXT)) {
+            $this->setHeaderParam();
+            $this->_output .= $this->_parseTemplate(
+                file_get_contents(
+                    $this->getDirectoryPath('Views') 
+                    . $this->_controller . DS 
+                    . $this->_action.self::EXT
+                )
+            );
+       }
+       
+       return $this->_output;
+   }
+   
+   protected function _parseTemplate($html)
+   {
+       $output = $html;
+       
+       foreach ($this->_values as $key => $value) {
+           $tagToReplace = "{".$key."}";
+           $output = str_replace($tagToReplace, $value, $output);
+       }
+       
+       return $output;
+   }
+   
+   protected function _output()
+   {
+       echo $this->_output;
+   }
+   
+   protected function setHeaderParam()
+   {
+       $this->set('base_url', $this->getBaseUrl());
+       $this->set('style_dir', $this->getCssPath());
    }
 }
