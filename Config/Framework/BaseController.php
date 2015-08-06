@@ -2,6 +2,14 @@
 
 class Config_Framework_BaseController extends Config_Framework_App
 {
+    protected $_model;
+
+    public function __construct()
+    {
+        $modelClass = str_replace('Controller', 'Model', get_class($this));
+        $this->_model = new $modelClass();
+    }
+
     protected function loadView($controller, $action, $data = '')
     {
         return $this->getView($controller, $action, $data);

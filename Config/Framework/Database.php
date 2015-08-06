@@ -6,19 +6,25 @@ class Config_Framework_Database extends Config_Framework_App
 
     private static $_selfinstance;
     
-    private $_dbConn, $_hostName, $_database, $_userName, $_password;
+    protected $_dbConn;
+    
+    private $_hostName;
+    
+    private $_database;
+    
+    private $_userName;
+    
+    private $_password;
 
     /**
      *
      * @return DbConn
      */
-    private static function getInstance()
+    protected static function getInstance()
     {
         if (self::$_selfinstance == null) {
-            $className = __CLASS__;
-            self::$_selfinstance = new $className;
+            self::$_selfinstance = new self;
         }
-
         return self::$_selfinstance;
     }
 
@@ -60,9 +66,12 @@ class Config_Framework_Database extends Config_Framework_App
         }
     }
     
+    /**
+     * 
+     */
     private function getConfigData()
     {
-        if(!file_exists($this->getDirectoryPath('appconfig').  self::DB_CONNECT_FILE)){
+        if (!file_exists($this->getDirectoryPath('appconfig').  self::DB_CONNECT_FILE)) {
             $this->_redirect('install');
         }
         
@@ -74,6 +83,10 @@ class Config_Framework_Database extends Config_Framework_App
         $this->setDatabaseParams(json_decode($connect));
     }
     
+    /**
+     * 
+     * @param type $connectParam
+     */
     private function setDatabaseParams($connectParam)
     {
         $this->_hostName = $connectParam->defaultsetup->connection->host;

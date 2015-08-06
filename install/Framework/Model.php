@@ -41,37 +41,9 @@ class Framework_Model
         $db = self::singleton();
         $db->setPostConfig();
         
-        try{
-            $db->_dbConn = new PDO(
-                "mysql:host="
-                .$db->_host.";dbname="
-                .$db->_databaseName."", ""
-                .$db->_userName."", ""
-                .$db->_password.""
-            );    
-            
-            $configData = array(
-                'defaultsetup' => array(
-                    'connection' => array(
-                        "host" => $db->_host,
-                        "username" => $db->_userName,
-                        "password" => $db->_password,
-                        "dbname" => $db->_databaseName,
-                        "initStatements" => "SET NAMES utf8",
-                        "model" => "mysql4",
-                        "type" => "pdo_mysql",
-                        "active" => "1"
-                    )
-                )
-            );
-            
-            file_put_contents($confFile, json_encode($configData));
-            $db->controller()->view()->setSessionMessage('success', 'Database connection establish');
-            $db->controller()->view()->clearSession();
+        if ($db->_isConnect()) {
+            $db->_writeConfig($confFile);
             $db->controller()->_redirect($db->_appPath);
-        } catch (Exception $ex) {
-            $db->controller()->view()->setSessionMessage('error', $ex->getMessage());
-            $db->controller()->_redirect($db->controller()->getBaseUrl());
         }
     }
     
@@ -85,5 +57,53 @@ class Framework_Model
         $this->_databaseName = $p['dbname'];
         
         $this->_appPath = $p['appPath'];
+    }
+    
+    protected function _isConnect()
+    {
+        try{
+            $this->_dbConn = new PDO(
+                "mysql:host="
+                .$this->_host.";dbname="
+                .$this->_databaseName."", ""
+                .$this->_userName."", ""
+                .$this->_password.""
+            );
+            
+            return true;
+        } catch (Exception $ex) {
+            $this->controller()
+                ->view()
+                ->setSessionMessage('error', $ex->getMessage());
+            $this->controller()->_redirect($this->controller()->getBaseUrl());
+        }
+        
+        return false;
+    }
+    
+    protected function _writeConfig($confFile)
+    {
+        $configData = array(
+                'defaultsetup' => array(
+                    'connection' => array(
+                        "host" => $this->_host,
+                        "username" => $this->_userName,
+                        "password" => $this->_password,
+                        "dbname" => $this->_databaseName,
+                        "initStatements" => "SET NAMES utf8",
+                        "model" => "mysql4",
+                        "type" => "pdo_mysql",
+                        "active" => "1"
+                    )
+                )
+            );
+            
+        file_put_contents($confFile, json_encode($configData));
+        $this->controller()
+            ->view()
+            ->setSessionMessage('success', 'Database connection establish');
+        $this->controller()->view()->clearSession();
+        
+        return $this;
     }
 }

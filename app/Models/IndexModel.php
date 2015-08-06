@@ -1,9 +1,16 @@
 <?php
 
-class IndexModel
+class IndexModel extends Config_Framework_AppModel
 {
-    public function __construct()
+    protected $_version = '0.0.1';
+    
+    /*protected function up()
     {
-        echo __CLASS__;
+        
     }
+    
+    protected function down()
+    {
+        
+    }*/
 }

@@ -5,6 +5,7 @@ class Config_Framework_App
     protected $_data;
     
     static private $_registry  = array();
+    
     static protected $_instance;
     
     public function __construct() 
@@ -219,7 +220,6 @@ class Config_Framework_App
         $pro = explode('/', $pathInfo['dirname']);
         
         return $protocol.$hostName."/".$pro[1]."/";
-//        return $protocol.$hostName.$pathInfo['dirname']."/";
     }
     
 }
