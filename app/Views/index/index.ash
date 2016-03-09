@@ -1,1 +1,1 @@
-<div class="fname">PAR</div>
+<div class="fname">{name}</div>

@@ -4,8 +4,9 @@ class IndexController extends Config_Framework_BaseController
 {
     public function indexAction()
     {
-        $view = $this->loadView('index', 'index');
-        $view->set('title', 'Page Title');
-        $view->render();
+        $this->loadView('index', 'index');
+        $this->view->set('title', 'Welcome');
+        $this->view->set('name', 'Ashish');
+        $this->view->render();
     }
 }

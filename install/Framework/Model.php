@@ -98,7 +98,7 @@ class Framework_Model
                 )
             );
             
-        file_put_contents($confFile, json_encode($configData));
+        file_put_contents($confFile, json_encode($configData, JSON_PRETTY_PRINT));
         $this->controller()
             ->view()
             ->setSessionMessage('success', 'Database connection establish');

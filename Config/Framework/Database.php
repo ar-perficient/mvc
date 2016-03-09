@@ -2,20 +2,15 @@
 
 class Config_Framework_Database extends Config_Framework_App
 {
-    const DB_CONNECT_FILE = 'database.json';
-
     private static $_selfinstance;
+    private $_hostName;    
+    private $_database;    
+    private $_userName;    
+    private $_password;
     
     protected $_dbConn;
-    
-    private $_hostName;
-    
-    private $_database;
-    
-    private $_userName;
-    
-    private $_password;
 
+    const DB_CONNECT_FILE = 'database.json';
     /**
      *
      * @return DbConn
